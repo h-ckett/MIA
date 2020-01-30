@@ -41,8 +41,9 @@ def frameCaptureMulti(fc_path):
 
 # driver code start
 # Testing on a mouse video
-frameCapture("C:\\Users\\ahack\\Documents\\QC Lab Docs\\David Mouse Project\\1-8-20\\REC_0001.MP4")
+frameCapture("PATH") # Make sure to edit "PATH" to path to a video here
 # driver code end
 
 # Note: frameCapture() functions fine, but frameCaptureMulti() just outputs black frames...
 # The issue is not with the grayscale conversion or the gaussian filtering (both tested)
+# There is a Stack Overflow question opened here: https://stackoverflow.com/questions/59990709/scikit-image-threshold-multiotsu-outputting-black-frames-from-video
