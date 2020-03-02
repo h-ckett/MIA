@@ -1,5 +1,6 @@
 import sys
 import webbrowser
+import ROIWindow
 from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton, QLineEdit, QWidget, QListWidget, QMenuBar, QAction
 from PyQt5 import QtGui
 from PyQt5.QtCore import QRect
@@ -13,7 +14,12 @@ class HomeWindow(QMainWindow):
         self.width = 320
         self.height = 420
         self.icon = "mouse.png"
-        
+
+        self.newROIWindow = ROIWindow.ROIWindow()                                   #   ROIWindow
+        self.newROIWindow.hide()                                                    #   Hide it for later
+
+        #   declare dictionary that stores lists of all coords & datapoints &c. for each defined ROI
+
         # le_vidPath        -   line edit for the video path
         self.le_vidPath = QLineEdit(self)                                           #   Create the line edit
         self.le_vidPath.setGeometry(QRect(5, 55, 310, 25))                          #   Set size & pos
@@ -59,7 +65,7 @@ class HomeWindow(QMainWindow):
         self.setWindowIcon(QtGui.QIcon(self.icon))
         self.setWindowTitle(self.title)
         self.setFixedSize(self.width, self.height)
-
+    
         self.show()
     
     def UIComponents(self):
@@ -98,7 +104,9 @@ class HomeWindow(QMainWindow):
     def onClick_importVideo(self):
         pass
     def onClick_newROI(self):
-        pass
+        self.newROIWindow.show()
+        #   after window closes, yoink data list/tuple out of it and store in dictionary
+        return
     def onClick_loadROI(self):
         pass
     def onClick_deleteROI(self):

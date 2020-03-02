@@ -13,9 +13,11 @@ class ROIWindow(QDialog):
         self.width = 800
         self.height = 600
         self.icon = "roi.png"
+
+        #   store variables here in a list/tuple for coord data + datapoint selections
         
-        self.defROIWindow = DefineROI()
-        self.defROIWindow.hide()
+        self.defROIWindow = DefineROI() #   Set up our ROI def window for later
+        self.defROIWindow.hide()        #   Hide it
 
         self.UIComponents()
         self.InitWindow()
@@ -36,6 +38,8 @@ class ROIWindow(QDialog):
 
     def onClick_openDefineROI(self): 
         self.defROIWindow.show()
+    
+    #   method to yoink data out of ROI definition window to combine with data in ROIWindow
 
 class DefineROI(QWidget):
     def __init__(self):
@@ -46,8 +50,12 @@ class DefineROI(QWidget):
         self.height = 755
         self.icon = "roi.png"
 
+        #   store variables here related to coords &c. gathered
+        self.originCoords = [0, 0]          #   Coordinates of the first point in polygon
+        self.polyCoords = QtGui.QPolygon()  #   Store multiple coords for each point in polygon
+
         self.InitWindow()
-        self.setMouseTracking(True)
+        self.setMouseTracking(True)    
     
     def InitWindow(self):
         self.setWindowIcon(QtGui.QIcon(self.icon))
@@ -68,30 +76,29 @@ class DefineROI(QWidget):
         #   originCoords        -   shows the coords of the region's origin point
         self.lbl_originCoords = QLabel(self)
         self.lbl_originCoords.setFont(QtGui.QFont("Sanserif", 16))
-        self.lbl_originCoords.setText("Region Origin: (1280, 720)")
+        self.lbl_originCoords.setText("Polygon Origin: (%d, %d)" % (self.originCoords[0], self.originCoords[1]))
         self.lbl_originCoords.setGeometry(QRect(285, 725, 275, 25))
-        #   endptCoords         -   shows the coords of the region's end point
-        self.lbl_endptCoords = QLabel(self)
-        self.lbl_endptCoords.setFont(QtGui.QFont("Sanserif", 16))
-        self.lbl_endptCoords.setText("Region End: (1280, 720)")
-        self.lbl_endptCoords.setGeometry(QRect(565, 725, 275, 25))
 
-        self.show()
+        #self.show()
     
     def mouseMoveEvent(self, event):
-        self.lbl_cursorCoords.setText("Current Position: (%d, %d)" % (event.x(), event.y()))
+        self.lbl_cursorCoords.setText("Set Point at: (%d, %d)" % (event.x(), event.y()))
     def mousePressEvent(self, event):
         pass
     def mouseReleaseEvent(self, event):
         pass
 
 #debug
+"""
 App = QApplication(sys.argv)
 window = ROIWindow()
 sys.exit(App.exec())
+"""
 #/debug
 
-# to do: handle set origin and set end
-# to do: calculate region sq
-# to do: maybe do the point by point, adding to a list until new point is same as origin?
+# to do: handle origin label and data variables
+# to do: do the point by point (allow polygon definition), adding to a list until new point is same as origin
+# since clicking directly on origin point is hard, make it a range of pixels near origin
+# maybe like error of 5-10 px, then just snap it to origin
+# to do: calculate px region inside defined polygon
 # to do: update original roi window
